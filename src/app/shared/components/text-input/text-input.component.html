@@ -1,0 +1,23 @@
+<div [ngClass]="{'mb-3': !isLast}">
+  <label *ngIf="label" [for]="id || name" class="mb-1 semibold">
+    {{ label }}
+    <span *ngIf="required" class="text-danger">*</span>
+  </label>
+  <input
+    parent-form
+    [type]="type"
+    #textInput="ngModel"
+    [required]="required"
+    [id]="id || name"
+    [name]="name"
+    class="form-control"
+    [(ngModel)]="value"
+    (input)="changeValue(textInput.value)"
+    [ngClass]="{'border border-danger': (textInput.touched || formSubmitted) && !textInput.valid}"
+  >
+  <ng-container *ngIf="hasErrorText">
+    <div *ngIf="(textInput.touched || formSubmitted) && textInput.invalid">
+      <small *ngIf="textInput.errors?.['required']" class="text-danger">Required field!</small>
+    </div>
+  </ng-container>
+</div>
